@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 router.get('/list', async (req, res) => {
     var userList = await userModel.find({});
     if (!userList || !userList.length) {
-        res.status(403).json({ 'message': 'Invalid email' });
+        res.status(403).json({ 'message': 'No data found' });
         return;
     } else {
         res.json({ userList: userList, message: 'Success' });
@@ -25,10 +25,10 @@ router.post('/create', async (req, res) => {
             res.status(400).json({ 'message': 'Email is required' });
             return;
         }
-        if (!userData.role) {
-            res.status(400).json({ 'message': 'Role is required' });
-            return;
-        }
+        // if (!userData.role) {
+        //     res.status(400).json({ 'message': 'Role is required' });
+        //     return;
+        // }
         if (!userData.password) {
             res.status(400).json({ 'message': 'Password is required' });
             return;
