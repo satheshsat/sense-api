@@ -86,7 +86,7 @@ router.post('/update/:_id', async (req, res) => {
         if (userData.role) {
             updateData.role = userData.role;
         }
-        if (!userData.password) {
+        if (userData.password) {
             updateData.password = userData.password;
         }
         var emailExists = await userModel.findOne({ email: userData.email });
