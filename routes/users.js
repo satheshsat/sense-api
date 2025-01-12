@@ -4,6 +4,16 @@ const userModel = require('../schemas/users');
 const bcrypt = require('bcrypt');
 
 router.get('/list', async (req, res) => {
+    if(req.query.email){
+        var userList = await userModel.findOne({ email: req.query.email })
+        if (!userList) {
+            res.status(403).json({ 'message': 'No data found' });
+            return;
+        } else {
+            res.json(userList);
+            return;
+        }
+    }
     var userList = await userModel.find({});
     if (!userList || !userList.length) {
         res.status(403).json({ 'message': 'No data found' });
