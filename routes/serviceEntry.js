@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const serviceEntryModel = require('serviceEntry');
+const serviceEntryModel = require('../schemas/serviceEntry');
 
 router.get('/list', async (req, res) => {
     var list = await serviceEntryModel.find({});

@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const adjustmentModel = require('../schemas/adjustment')
 
 router.get('/list', async (req, res) => {
     res.send('Express on Vercel')
@@ -8,12 +9,12 @@ router.get('/list', async (req, res) => {
 router.post('/create', async (req, res) => {
     try {
         const data = req.body;
-        var exists = await userModel.findOne({ email: data.email });
+        var exists = await adjustmentModel.findOne({ email: data.email });
         if (exists) {
             res.status(400).json({ 'message': 'User email already exists' });
             return;
         }
-        var result = await userModel.create({
+        var result = await adjustmentModel.create({
             ...data,
             createdby: req.decoded._id,
             modifiedby: 'sys',
@@ -36,13 +37,13 @@ router.delete('/delete/:_id', async (req, res) => {
         return;
     }
     try{
-    var exists = await userModel.findOne({ _id: req.params._id });
+    var exists = await adjustmentModel.findOne({ _id: req.params._id });
     if(!exists){
         res.status(404).json({ 'message': 'User not found' });
         return;
     }
 
-    let doc = await userModel.findOneAndDelete({ _id: req.params._id});
+    let doc = await adjustmentModel.findOneAndDelete({ _id: req.params._id});
     res.json({ message: 'success', data: doc })
     } catch (err) {
         console.log(e);
