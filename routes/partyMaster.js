@@ -1,48 +1,47 @@
 const express = require('express')
 const router = express.Router()
-const adjustmentModel = require('../schemas/adjustment')
+const partyMasterModel = require('../schemas/partyMaster')
 
-router.get('/entryno', async (req, res) => {
-    var lastData = await adjustmentModel.findOne().sort({createdat: 'desc'})
-    if(lastData && lastData.entryno){
-        res.json({entryno: lastData.entryno+1});
+router.get('/pcode', async (req, res) => {
+    var lastData = await partyMasterModel.findOne().sort({createdat: 'desc'})
+    if(lastData && lastData.pcode){
+        res.json({pcode: lastData.pcode+1});
         return;
     }else{
-        res.json({entryno: 1});
+        res.json({pcode: 1});
         return;
     }
 })
-
 router.get('/list', async (req, res) => {
-    if(req.query.entryno){
-            var list = await adjustmentModel.findOne({ entryno: req.query.entryno })
-            if (!list) {
-                res.status(403).json({ 'message': 'No data found' });
-                return;
-            } else {
-                res.json(list);
-                return;
-            }
-        }
-        var list = await adjustmentModel.find({});
-        if (!list || !list.length) {
+    if(req.query.pcode){
+        var list = await partyMasterModel.findOne({ pcode: req.query.productcode })
+        if (!list) {
             res.status(403).json({ 'message': 'No data found' });
             return;
         } else {
-            res.json({ list: list, message: 'Success' });
+            res.json(list);
             return;
         }
+    }
+    var list = await partyMasterModel.find({});
+    if (!list || !list.length) {
+        res.status(403).json({ 'message': 'No data found' });
+        return;
+    } else {
+        res.json({ list: list, message: 'Success' });
+        return;
+    }
 })
 
 router.post('/create', async (req, res) => {
     try {
         const data = req.body;
-        var exists = await adjustmentModel.findOne({ entryno: data.entryno });
+        var exists = await partyMasterModel.findOne({ pcode: data.pcode });
         if (exists) {
-            res.status(400).json({ 'message': 'entryno already exists' });
+            res.status(400).json({ 'message': 'pcode already exists' });
             return;
         }
-        var result = await adjustmentModel.create({
+        var result = await partyMasterModel.create({
             ...data,
             createdby: req.decoded._id,
             modifiedby: 'sys',
@@ -62,14 +61,14 @@ router.post('/update/:_id', async (req, res) => {
     }
     var data = req.body;
     try{
-        var exists = await adjustmentModel.findOne({ _id: req.params._id });
+        var exists = await partyMasterModel.findOne({ _id: req.params._id });
         if(!exists){
             res.status(404).json({ 'message': 'Data not found' });
             return;
         }
-        var entryExists = await adjustmentModel.findOne({ entryno: data.entryno });
-        if(entryExists.entryno == exists.entryno){
-            delete data.entryno;
+        var entryExists = await partyMasterModel.findOne({ pcode: data.pcode });
+        if(entryExists.pcode == exists.pcode){
+            delete data.pcode;
         }else{
             res.status(400).json({ 'message': 'User Entry already exists' });
             return;
@@ -87,7 +86,7 @@ router.post('/update/:_id', async (req, res) => {
 
         // `doc` is the document _after_ `update` was applied because of
         // `new: true`
-        const doc = await adjustmentModel.findOneAndUpdate(filter, data, {
+        const doc = await partyMasterModel.findOneAndUpdate(filter, data, {
             new: true
         });
         res.json({ message: 'success', data: doc })
@@ -103,13 +102,13 @@ router.delete('/delete/:_id', async (req, res) => {
         return;
     }
     try{
-    var exists = await adjustmentModel.findOne({ _id: req.params._id });
+    var exists = await partyMasterModel.findOne({ _id: req.params._id });
     if(!exists){
-        res.status(404).json({ 'message': 'Data not found' });
+        res.status(404).json({ 'message': 'data not found' });
         return;
     }
 
-    let doc = await adjustmentModel.findOneAndDelete({ _id: req.params._id});
+    let doc = await partyMasterModel.findOneAndDelete({ _id: req.params._id});
     res.json({ message: 'success', data: doc })
     } catch (err) {
         console.log(e);
