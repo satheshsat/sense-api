@@ -6,6 +6,12 @@ let productSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    productcode: {
+        type: Number,
+        required: true,
+        unique: true,
+        default: 0
+    },
     units: String,
     taxper: Number,
     prate: Number,
