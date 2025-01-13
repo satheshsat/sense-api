@@ -51,7 +51,7 @@ router.post('/create', async (req, res) => {
         res.json({ message: 'success', data: result })
     } catch (e) {
         console.log(e);
-        res.json({ 'message': 'Something went wrong' });
+        res.status(400).json({ 'message': 'Something went wrong' });
     }
 })
 
@@ -113,7 +113,7 @@ router.delete('/delete/:_id', async (req, res) => {
     res.json({ message: 'success', data: doc })
     } catch (err) {
         console.log(e);
-        res.json({ 'message': 'Something went wrong' });
+        res.status(400).json({ 'message': 'Something went wrong' });
     }
 })
 
