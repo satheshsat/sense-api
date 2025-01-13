@@ -32,6 +32,7 @@ app.use('/api/adjustment', tokenMiddleware.validateToken, require('./routes/adju
 app.use('/api/delivery', tokenMiddleware.validateToken, require('./routes/delivery'));
 app.use('/api/jobcard', tokenMiddleware.validateToken, require('./routes/jobCard'));
 app.use('/api/products', tokenMiddleware.validateToken, require('./routes/products'));
+app.use('/api/partymaster', tokenMiddleware.validateToken, require('./routes/partyMaster'));
 app.use('/api/purchase', tokenMiddleware.validateToken, require('./routes/purchase'));
 app.use('/api/serviceentry', tokenMiddleware.validateToken, require('./routes/serviceEntry'));
 app.get("/", (req, res) => {

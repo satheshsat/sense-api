@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 
-let productSchema = new mongoose.Schema({
+let partyMasterSchema = new mongoose.Schema({
     pcode: {
         type: Number,
         required: true,
@@ -31,4 +31,4 @@ let productSchema = new mongoose.Schema({
     modifiedat: Date,
 });
 
-module.exports = mongoose.model('Products', productSchema);
+module.exports = mongoose.model('partyMaster', partyMasterSchema);
